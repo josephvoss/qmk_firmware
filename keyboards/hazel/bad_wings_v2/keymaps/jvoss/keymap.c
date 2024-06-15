@@ -1,4 +1,14 @@
 #include QMK_KEYBOARD_H
+#include "features/layer_lock.h"
+
+enum custom_keycodes {
+  LLOCK = SAFE_RANGE
+};
+
+bool process_record_user(uint16_t keycode, keyrecord_t* record) {
+  if (!process_layer_lock(keycode, record, LLOCK)) { return false; }
+  return true;
+}
 
 enum layers {
   BASE,
@@ -18,7 +28,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LT(MEDIA,KC_ESC) ,  LT(NAV,KC_BSPC)  ,  LT(MOUSE,KC_TAB),  LT(SYMB,KC_ENT) ,  LT(NUM,KC_SPC) ,  LT(FUNC,KC_DEL)
   ),
 	[MEDIA] = LAYOUT_split_3x5_3(
-    KC_NO   , KC_NO   , KC_NO   , KC_NO   , KC_NO   , RGB_TOG , RGB_MOD , RGB_HUI , RGB_SAI , RGB_VAI ,
+    QK_BOOTLOADER   , KC_NO   , KC_NO   , KC_NO   , KC_NO   , RGB_TOG , RGB_MOD , RGB_HUI , RGB_SAI , RGB_VAI ,
     KC_LGUI , KC_LALT , KC_LCTL , KC_LSFT , KC_NO   , KC_MPRV , KC_VOLD , KC_VOLU , KC_MNXT , KC_NO   ,
     KC_NO   , KC_ALGR , KC_NO   , KC_NO   , KC_NO   , KC_NO   , KC_NO   , KC_NO   , KC_NO   , KC_NO   ,
     KC_NO   , KC_NO   , KC_NO   , KC_MSTP , KC_MPLY , KC_MUTE
@@ -26,14 +36,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	[NAV] = LAYOUT_split_3x5_3(
     KC_NO   ,  KC_NO   ,  KC_NO   ,  KC_NO   ,  KC_NO   ,  KC_AGIN ,  KC_PSTE ,  KC_COPY ,  KC_CUT  ,  KC_UNDO,
     KC_LGUI ,  KC_LALT ,  KC_LCTL ,  KC_LSFT ,  KC_NO   ,  KC_LEFT ,  KC_DOWN ,  KC_UP   ,  KC_RGHT ,  KC_CAPS,
-    KC_NO   ,  KC_ALGR ,  KC_NO   ,  KC_NO   ,  KC_NO   ,  KC_HOME ,  KC_PGDN ,  KC_PGUP ,  KC_END  ,  KC_INS,
+    LLOCK   ,  KC_ALGR ,  KC_NO   ,  KC_NO   ,  KC_NO   ,  KC_HOME ,  KC_PGDN ,  KC_PGUP ,  KC_END  ,  KC_INS,
     KC_NO   ,  KC_NO   ,  KC_NO   ,  KC_ENT  ,  KC_BSPC ,  KC_DEL
   ),
 	[MOUSE] = LAYOUT_split_3x5_3(
-    KC_NO   ,  KC_NO   ,  KC_NO   ,  KC_NO   ,  KC_NO   ,  KC_AGIN ,  KC_PSTE ,  KC_COPY ,  KC_CUT  ,  KC_UNDO,
-    KC_LGUI ,  KC_LALT ,  KC_LCTL ,  KC_LSFT ,  KC_NO   ,  KC_MS_L ,  KC_MS_D ,  KC_MS_U ,  KC_MS_R ,  KC_NO,
-    KC_NO   ,  KC_ALGR ,  KC_NO   ,  KC_NO   ,  KC_NO   ,  KC_WH_L ,  KC_WH_D ,  KC_WH_U ,  KC_WH_R ,  KC_NO,
-    KC_NO   ,  KC_NO   ,  KC_NO   ,  KC_BTN2 ,  KC_BTN1 ,  KC_BTN3
+    KC_NO    ,  KC_NO   ,  KC_NO   ,  KC_NO   ,  KC_NO   ,  KC_AGIN ,  KC_PSTE ,  KC_COPY ,  KC_CUT  ,  KC_UNDO,
+    KC_LGUI  ,  KC_LALT ,  KC_LCTL ,  KC_LSFT ,  KC_NO   ,  KC_MS_L ,  KC_MS_D ,  KC_MS_U ,  KC_MS_R ,  KC_NO,
+    LLOCK    ,  KC_ALGR ,  KC_NO   ,  KC_NO   ,  KC_NO   ,  KC_WH_L ,  KC_WH_D ,  KC_WH_U ,  KC_WH_R ,  KC_NO,
+    KC_NO    ,  KC_NO   ,  KC_NO   ,  KC_BTN2 ,  KC_BTN1 ,  KC_BTN3
   ),
 	[SYMB] = LAYOUT_split_3x5_3(
     KC_LCBR ,  KC_AMPR ,  KC_ASTR ,  KC_LPRN ,  KC_RCBR ,  KC_NO ,  KC_NO   ,  KC_NO   ,  KC_NO   ,  KC_NO,
